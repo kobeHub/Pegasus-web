@@ -1,5 +1,7 @@
 # pegasus-web
 
+The web client of [Pegasus](github.com/kobeHub/Pegasus) based on vuejs, which is under developing.
+
 ## Project setup
 ```
 npm install
