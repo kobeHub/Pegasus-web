@@ -54,6 +54,11 @@ export default {
       axios.post( '/api/users/login', loginParam).then(response => {
         if(response.status == 200){
           console.log(response.data.msg)
+          this.$store.commit('updateUserInfo', {
+            uid: response.data.id,
+            email: response.data.email,
+            name: response.data.name
+          })
           this.timer = setTimeout(() => {
             this.isLoging = false
             this.$router.push('/')

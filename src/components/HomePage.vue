@@ -9,7 +9,8 @@
 
       <div class="user-info">
         <h1 class="nick" v-text="'Hello, ' + $store.state.userInfo.name"></h1>
-        <a href="javascript:;" class="logout" @click="logout" v-if="!isLogouting"> [退出]</a>
+        <a class="log-btn" href="javascript:;" v-if="isLogouting">登录</a>
+        <a href="javascript:;" class="log-btn" @click="logout" v-if="!isLogouting"> 退出</a>
       </div>
       <Loading v-if="isLogouting" marginTop="3%"></Loading>
     </div>
@@ -39,13 +40,12 @@ export default {
       axios.post('/api/users/logout').then(res => {
         if(res.status == 200) {
           alert('Logout success', res.data.msg)
-          this.$state.commit('clearUserInfo')
+          this.$store.commit('clearUserInfo')
         }
       })
 
       this.timer = setTimeout(() => {
         this.$router.push('/login')
-        this.isLogouting = false
       }, 200)
     },
   },
@@ -82,4 +82,14 @@ export default {
  .nick{margin-right: 10px;}
  .cut{padding: 0 10px; color:#E9E9E9; font-size: 15px;}
  .logout{color: #2c3e50; display: block; margin-top: 20px;}
+ .log-btn{width:80px; display: block; text-align: left; line-height: 50px;margin:0 auto 15px; height:40px; color:#fff; font-size:13px;-webkit-border-radius: 5px; background-color: #3B5999;
+-moz-border-radius: 5px;
+-ms-border-radius: 5px;
+-o-border-radius: 5px;
+border-radius: 5px;
+position: relative;}
+ .log-btn{background-color: #50E3CE;text-align: center;}
+ .log-btn .icons{margin-left: 30px; vertical-align: middle;}
+ .log-btn .text{left: 95px; line-height: 50px; text-align: left; position: relative;}
+
 </style>
