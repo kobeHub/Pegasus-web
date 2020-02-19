@@ -1,60 +1,34 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+  <div id="app">
+    <div class="container-scroller">
+      <!--header-->
+      <div class="container-fluid page-body-wrapper">
+        <!--sidebar-->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <router-view></router-view>
+          </div>
+          <!--app-footer-->
+        </div>
+        <!--main panel ends-->
       </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-content>
-      <HelloWorld/>
-    </v-content>
-  </v-app>
+      <!--page body wrapper ends-->
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
 export default {
   name: 'App',
-
-  components: {
-    HelloWorld,
-  },
-
-  data: () => ({
-    //
-  }),
-};
+}
 </script>
+
+<style>
+ @import "../node_modules/mdi/css/materialdesignicons.min.css";
+ @import "../node_modules/flag-icon-css/css/flag-icon.min.css";
+ @import "../node_modules/font-awesome/css/font-awesome.min.css";
+</style>
+
+<style lang="scss">
+ @import "@/assets/scss/style";
+</style>
