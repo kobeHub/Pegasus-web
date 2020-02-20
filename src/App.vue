@@ -30,5 +30,5 @@ export default {
 </style>
 
 <style lang="scss">
- @import "@/assets/scss/style";
+ @import "~@/assets/scss/style";
 </style>
