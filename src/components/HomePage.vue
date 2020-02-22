@@ -9,8 +9,6 @@
 
       <div class="user-info">
         <h1 class="nick" v-text="'Hello, ' + $store.state.userInfo.name"></h1>
-        <a class="log-btn" href="javascript:;" v-if="isLogouting">登录</a>
-        <a href="javascript:;" class="log-btn" @click="logout" v-if="!isLogouting"> 退出</a>
       </div>
       <Loading v-if="isLogouting" marginTop="3%"></Loading>
     </div>
@@ -19,7 +17,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import Loading from './Loading.vue'
 
 export default {
@@ -31,26 +29,18 @@ export default {
       timer: null,
     }
   },
+  beforeCreate() {
+    if (this.$store.state.userInfo.uid !== null) {
+      this.$store.commit('login')
+    } else {
+      //alert('Please login first')
+      this.$router.push('/login')
+    }
+  },
   components: {
     Loading,
   },
   methods: {
-    logout: function() {
-      this.isLogouting = true
-      axios.post('/api/users/logout').then(res => {
-        if(res.status == 200) {
-          alert('Logout success', res.data.msg)
-          this.$store.commit('clearUserInfo')
-        }
-      })
-
-      this.timer = setTimeout(() => {
-        this.$router.push('/login')
-      }, 200)
-    },
-  },
-  beforeDestory: function() {
-    clearTimeout(this.timer)
   }
 }
 </script>

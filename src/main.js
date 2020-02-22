@@ -15,7 +15,8 @@ const store = new Vuex.Store({
             uid: null,
             email: null,
             name: null
-        }
+        },
+        isLogged: true
     },
     mutations: {
         // update
@@ -28,6 +29,12 @@ const store = new Vuex.Store({
                 email: null,
                 name: null
             }
+        },
+        login(state) {
+            state.isLogged = true
+        },
+        logout(state) {
+            state.isLogged = false
         }
     }
 })

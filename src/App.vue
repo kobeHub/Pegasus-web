@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="container-scroller" v-if="isLogged">
+    <div class="container-scroller" v-if="$store.state.isLogged">
       <!--header-->
       <app-header/>
       <div class="container-fluid page-body-wrapper">
@@ -18,7 +18,7 @@
       <!--page body wrapper ends-->
     </div>
 
-    <div class="container" v-if="!isLogged">
+    <div class="container" v-if="!$store.state.isLogged">
       <transition name="fade">
         <router-view></router-view>
       </transition>
@@ -39,37 +39,37 @@ export default {
     AppSidebar,
     AppFooter
   },
-  data: () => {
-    return {
-      isLogged: false,
+  data: function() {
+     return {
       userInfo: {
-        uid: null,
-        email: null,
-        name: null
-      }
+         uid: null,
+         email: null,
+         name: null
+       }
     }
   },
-  updated: () => {
-    console.log('Before create')
-    axios.post('/api/users/whoami').then(res => {
-      if (res.status == 200) {
-        this.isLogged = true
-        this.userInfo = {
-          uid: res.data.id,
-          email: res.data.email,
-          name: res.data.name
-        }
-        this.$store.commit('updateUserInfo', this.userInfo)
-        this.$router.push('/')
-      } else if(res.status == 401) {
-        this.isLogged = false
+  mounted() {
+    this.authoInit()
+  },
+  methods: {
+    authoInit: function(){
+      console.log('Authorized test')
+      axios.post('/api/users/whoami').then(res => {
+          this.userInfo = {
+            uid: res.data.id,
+            email: res.data.email,
+            name: res.data.name
+          }
+          this.$store.commit('updateUserInfo', this.userInfo)
+          this.$store.commit('login')
+      }).catch(e => {
+        console.log(e)
         this.$store.commit('clearUserInfo')
-        this.$router.push('/login')
-      }
-    }).catch(e => {
-      this.isLogged = false
-      console.log(e)
-    })
+      })
+    },
+    updateAuth(e) {
+      this.isLogged = e
+    },
   }
 }
 </script>

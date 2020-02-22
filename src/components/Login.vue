@@ -7,13 +7,13 @@
         <div class="log-cloud cloud3"></div>
         <div class="log-cloud cloud4"></div>
 
-        <div class="log-logo">Welcome!</div>
+        <div class="log-logo">Welcome to pegasus</div>
         <div class="log-text">@Pegasus</div>
     </div>
-    <div class="log-email">
-        <input type="text" placeholder="Email" :class="'log-input' + (account==''?' log-input-empty':'')" v-model="account"><input type="password" placeholder="Password" :class="'log-input' + (password==''?' log-input-empty':'')"  v-model="password">
+    <form class="log-email">
+      <input type="text" placeholder="Email" :class="'log-input' + (account==''?' log-input-empty':'')" v-model="account"><input type="password" placeholder="Password" :class="'log-input' + (password==''?' log-input-empty':'')"  v-model="password" @keyup.enter="login">
         <a href="javascript:;" class="log-btn" @click="login">Login</a>
-    </div>
+    </form>
     <Loading v-if="isLoging" marginTop="-30%"></Loading>
 </div>
 </template>
@@ -32,6 +32,13 @@ export default {
       timer: null
     }
   },
+  beforeCreate() {
+    if (this.$store.state.userInfo.uid != null) {
+      this.$router.push('/')
+    } else {
+      this.$store.commit('logout')
+    }
+  },
   components:{
     Loading
   },
@@ -48,26 +55,25 @@ export default {
         email: this.account,
         password: this.password
       }
-
       // set status
       this.isLoging = true
       axios.post( '/api/users/login', loginParam).then(response => {
-        if(response.status == 200){
           console.log(response.data.msg)
           this.$store.commit('updateUserInfo', {
             uid: response.data.id,
             email: response.data.email,
             name: response.data.name
           })
+          this.$store.commit('login')
           this.timer = setTimeout(() => {
             this.isLoging = false
             this.$router.push('/')
           }, 1000)
-        } else {
-          alert(response.data.msg)
-        }
       })
-      .catch(err => console.log(err))
+      .catch(() => {
+         alert('Email or password is invalid')
+         this.isLoging = false
+       })
     }
   },
   beforeDestory: function() {

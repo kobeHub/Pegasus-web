@@ -111,8 +111,8 @@
           <template slot="button-content">
             <img src="../assets/images/faces/face4.jpg" alt="profile image"  class="img-xs rounded-circle">
           </template>
-          <b-dropdown-item href="#" class="preview-item flex-wrap">Profile</b-dropdown-item>
-          <b-dropdown-item href="#" class="preview-item flex-wrap">Signout</b-dropdown-item>
+          <b-dropdown-item href="javsscript:;" class="preview-item flex-wrap">个人主页</b-dropdown-item>
+          <b-dropdown-item href="javascript:;" class="preview-item flex-wrap" @click="logout">退出</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
       <button class="navbar-toggler navbar-toggler-right align-self-center" type="button" @click="collapedMobileSidebar()">
@@ -123,12 +123,36 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'app-header',
+  data() {
+    return {
+      isLogouting: null,
+    }
+  },
   methods: {
     collapedMobileSidebar: () => {
       document.querySelector('.sidebar').classList.toggle('active')
-    }
+    },
+    logout: function() {
+      this.isLogouting = true
+      axios.post('/api/users/logout').then(res => {
+        if(res.status == 200) {
+          alert('Logout success', res.data.msg)
+          this.$store.commit('clearUserInfo')
+          this.$store.commit('logout')
+        }
+      })
+
+      this.timer = setTimeout(() => {
+        this.$router.push('/login')
+      }, 200)
+    },
+  },
+  beforeDestory: function() {
+    clearTimeout(this.timer)
   }
 }
 </script>
