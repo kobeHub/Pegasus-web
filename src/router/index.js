@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HomePage from '@/components/HomePage'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
+import Error404 from '@/components/Errors/error-404'
 
 Vue.use(Router)
 
@@ -15,6 +16,7 @@ Router.prototype.push = function push(location) {
 }
 
 export default new Router({
+    mode: 'history',
     routes: [
         {
             path: '/',
@@ -26,8 +28,13 @@ export default new Router({
             component: Login
         },
         {
-            path: "/logon",
-            component: Register
+            path: "/logon/:uuid",
+            component: Register,
+            props: true
+        },
+        {
+            path: '*',
+            component: Error404
         }
     ]
 })

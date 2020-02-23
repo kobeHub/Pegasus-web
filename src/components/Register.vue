@@ -10,22 +10,95 @@
       <div class="log-logo">Sign up!</div>
       <div class="log-text">@Pegasus</div>
     </div>
-    <div class="log-email">
-      <input type="text" placeholder="Email" :class="'log-input' + (account==''?' log-input-empty':'')" v-model="account"><input type="password" placeholder="Password" :class="'log-input' + (password==''?' log-input-empty':'')"  v-model="password">
-      <a href="javascript:;" class="log-btn" @click="login">Login</a>
-    </div>
-    <Loading v-if="isLoging" marginTop="-30%"></Loading>
+    <form class="log-email">
+        <ValidationProvider rules="email" v-slot="{ errors }">
+          <input type="text" placeholder="Email" :class="'log-input' + (account==''?' log-input-empty':'')" v-model="account"/>
+          <span class="span-text">{{ errors[0] }}</span>
+        </ValidationProvider>
+
+        <ValidationProvider rules="required|minmax:2,50" name="Name" v-slot="{ errors }">
+          <input type="text" placeholder="Name" :class="'log-input' + (name==''?' log-input-empty':'')" v-model="name"/>
+          <span class="span-text">{{ errors[0] }}</span>
+        </ValidationProvider>
+
+        <ValidationObserver>
+          <ValidationProvider rules="confirmed:confirmation|alpha_dash|minmax:10,16" name='Password' v-slot="{ errors }">
+            <input type="password" placeholder="Password" :class="'log-input' + (password==''?' log-input-empty':'')" v-model="password"/>
+            <span class="span-text">{{ errors[0] }}</span>
+          </ValidationProvider>
+
+          <ValidationProvider vid="confirmation" v-slot="{ errors }">
+            <input type="password" placeholder="Re-enter" :class="'log-input' + (password==''?' log-input-empty':'')" v-model="confirmation" @keyup.enter="logon"/>
+            <span class="span-text">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </ValidationObserver>
+
+      <a href="javascript:;" class="log-btn" @click="logon">Login</a>
+    </form>
+    <Loading v-if="isWorking" marginTop="-30%"></Loading>
   </div>
 </template>
 
 <script>
 import Loading from './Loading.vue'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import axios from 'axios'
 
 export default {
   name: 'Register',
+  data() {
+    return {
+      account: '',
+      name: '',
+      password: '',
+      confirmation: '',
+      timer: null,
+      isWorking: false
+    }
+  },
+  props: ['uuid'],
   components: {
     Loading,
-  }
+    ValidationProvider,
+    ValidationObserver,
+  },
+  created() {
+    axios.post( '/api/invitations/expire', {'id': this.uuid}).then(res => {
+      console.log(res.data.expire)
+      if (res.data.expire) {
+        alert('Invitaion token expired, ask admin for another one ')
+        this.$router.push('/login')
+      }
+    })
+    .catch(err => {
+      console.log('Call API: invitations expire', err)
+      alert(err)
+      this.$router.push('/login')
+    })
+  },
+  methods: {
+    logon() {
+      let param = {
+        id: this.uuid,
+        email: this.account,
+        name: this.name,
+        password: this.password
+      }
+      this.isWroking = true
+      axios.post( '/api/users/register', param ).then(res => {
+        console.log(res.data.msg)
+        alert('Sign up successfully!')
+        this.timer = setTimeout(() => {
+          this.isWorking = false
+          this.$router.push('/login')
+        }, 1000)
+      })
+      .catch(err => console.log(err))
+    },
+  },
+  beforeDestory() {
+    clearTimeout(this.timer)
+  },
 }
 </script>
 
@@ -62,6 +135,7 @@ position: relative;}
 .log-btn:hover,.log-btn:focus{color: #fff; opacity: .8;}
 .log-email{text-align: center; margin-top: 20px;}
 .log-email .log-btn{background-color: #50E3CE;text-align: center;}
+.log-email .span-text{font-weight: light; font-size: 13px; color: red;display: flex; margin-left: 65px;}
 .log-input-empty{border: 1px solid #f37474 !important;}
 .isloading{background: #d6d6d6}
 .log-btn .icons{margin-left: 30px; vertical-align: middle;}

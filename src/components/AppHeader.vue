@@ -111,8 +111,8 @@
           <template slot="button-content">
             <img src="../assets/images/faces/face4.jpg" alt="profile image"  class="img-xs rounded-circle">
           </template>
-          <b-dropdown-item href="javsscript:;" class="preview-item flex-wrap">个人主页</b-dropdown-item>
-          <b-dropdown-item href="javascript:;" class="preview-item flex-wrap" @click="logout">退出</b-dropdown-item>
+          <b-dropdown-item href="javsscript:;" class="preview-item flex-wrap">profile</b-dropdown-item>
+          <b-dropdown-item href="javascript:;" class="preview-item flex-wrap" @click="logout">logout</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
       <button class="navbar-toggler navbar-toggler-right align-self-center" type="button" @click="collapedMobileSidebar()">

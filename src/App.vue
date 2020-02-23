@@ -18,7 +18,7 @@
       <!--page body wrapper ends-->
     </div>
 
-    <div class="container" v-if="!$store.state.isLogged">
+    <div class="container-fluid" v-if="!$store.state.isLogged">
       <transition name="fade">
         <router-view></router-view>
       </transition>
