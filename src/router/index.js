@@ -4,6 +4,7 @@ import HomePage from '@/components/HomePage'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Error404 from '@/components/Errors/error-404'
+import Error500 from '@/components/Errors/error-500'
 
 Vue.use(Router)
 
@@ -24,13 +25,21 @@ export default new Router({
             component: HomePage
         },
         {
-            path: "/login",
+            path: '/login',
             component: Login
         },
         {
-            path: "/logon/:uuid",
+            path: '/logon/:uuid',
             component: Register,
             props: true
+        },
+        {
+            path: '/error',
+            component: Error500
+        },
+        {
+            path: '/notfound',
+            component: Error404
         },
         {
             path: '*',

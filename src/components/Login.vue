@@ -70,9 +70,15 @@ export default {
             this.$router.push('/')
           }, 1000)
       })
-      .catch(() => {
-         alert('Email or password is invalid')
-         this.isLoging = false
+      .catch(err => {
+        this.isLoging = false
+        let res = err.response
+        console.log(res)
+        if (res.status == 401) {
+          alert(res.data.msg)
+        } else {
+          this.$router.push('/error')
+        }
        })
     }
   },

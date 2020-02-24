@@ -11,10 +11,7 @@
       <div class="log-text">@Pegasus</div>
     </div>
     <form class="log-email">
-        <ValidationProvider rules="email" v-slot="{ errors }">
-          <input type="text" placeholder="Email" :class="'log-input' + (account==''?' log-input-empty':'')" v-model="account"/>
-          <span class="span-text">{{ errors[0] }}</span>
-        </ValidationProvider>
+          <input type="text" placeholder="Email" :class="'log-input' + (account==''?' log-input-empty':'')" v-model="account" readonly/>
 
         <ValidationProvider rules="required|minmax:2,50" name="Name" v-slot="{ errors }">
           <input type="text" placeholder="Name" :class="'log-input' + (name==''?' log-input-empty':'')" v-model="name"/>
@@ -76,6 +73,15 @@ export default {
       this.$router.push('/login')
     })
   },
+  beforeMount() {
+    this.$store.commit('logout')
+    axios.post( '/api/invitations/email', {'id': this.uuid}).then(res => {
+      this.account = res.data.email
+    })
+    .catch(err => {
+       alert('Sign up token error', err)
+     })
+  },
   methods: {
     logon() {
       let param = {
@@ -87,13 +93,26 @@ export default {
       this.isWroking = true
       axios.post( '/api/users/register', param ).then(res => {
         console.log(res.data.msg)
-        alert('Sign up successfully!')
+        if(res.data.status) {
+          alert('Sign up successfully!')
+        } else {
+          alert('Email address is occupied!')
+        }
+
         this.timer = setTimeout(() => {
           this.isWorking = false
           this.$router.push('/login')
         }, 1000)
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        let res = err.response
+        console.log(res)
+        if (res.status == 500) {
+          this.$router.push('/error')
+        } else {
+          alert(res.data.msg)
+        }
+      })
     },
   },
   beforeDestory() {
