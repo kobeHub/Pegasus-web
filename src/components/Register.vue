@@ -11,7 +11,9 @@
       <div class="log-text">@Pegasus</div>
     </div>
     <form class="log-email">
-          <input type="text" placeholder="Email" :class="'log-input' + (account==''?' log-input-empty':'')" v-model="account" readonly/>
+         <input type="text" placeholder="Email" :class="'log-input' + (account==''?' log-input-empty':'')" v-model="account" readonly/>
+
+         <input type="text" placeholder="Department" :class="'log-input' + (department==''?' log-input-empty':'')" v-model="department" readonly/>
 
         <ValidationProvider rules="required|minmax:2,50" name="Name" v-slot="{ errors }">
           <input type="text" placeholder="Name" :class="'log-input' + (name==''?' log-input-empty':'')" v-model="name"/>
@@ -47,6 +49,10 @@ export default {
     return {
       account: '',
       name: '',
+      department: '',
+      departments:'',
+      belong_to: null,
+      is_admin: null,
       password: '',
       confirmation: '',
       timer: null,
@@ -61,7 +67,7 @@ export default {
   },
   created() {
     axios.post( '/api/invitations/expire', {'id': this.uuid}).then(res => {
-      console.log(res.data.expire)
+      //console.log(res.data.expire)
       if (res.data.expire) {
         alert('Invitaion token expired, ask admin for another one ')
         this.$router.push('/login')
@@ -75,12 +81,18 @@ export default {
   },
   beforeMount() {
     this.$store.commit('logout')
-    axios.post( '/api/invitations/email', {'id': this.uuid}).then(res => {
-      this.account = res.data.email
+    this.getDepartments().then( (departments) => {
+      axios.post( '/api/invitations/get', {'id': this.uuid}).then(res => {
+        this.account = res.data.email
+        this.belong_to = res.data.department
+        this.department = departments.get(this.belong_to)
+        this.is_admin = res.data.is_admin
+      })
+      .catch(err => {
+            alert('Sign up token error', err)
+      })
     })
-    .catch(err => {
-       alert('Sign up token error', err)
-     })
+
   },
   methods: {
     logon() {
@@ -88,7 +100,9 @@ export default {
         id: this.uuid,
         email: this.account,
         name: this.name,
-        password: this.password
+        password: this.password,
+        belong_to: this.belong_to,
+        role: this.getRole(),
       }
       this.isWroking = true
       axios.post( '/api/users/register', param ).then(res => {
@@ -114,6 +128,21 @@ export default {
         }
       })
     },
+    getRole() {
+      if (this.is_admin) {
+        return 'DepartmentAdmin'
+      } else {
+        return 'Lessee'
+      }
+    },
+    async getDepartments() {
+      let departments = new Map()
+      let res = await axios( '/api/departs/list')
+      res.data.forEach(function(data) {
+          departments.set(data.id, data.name)
+      })
+      return departments
+    }
   },
   beforeDestory() {
     clearTimeout(this.timer)
