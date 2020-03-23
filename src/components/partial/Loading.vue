@@ -1,4 +1,3 @@
-
 <template>
 <div class="loadEffect" :style="{marginTop: marginTop? marginTop : '50%'}">
     <span class="ld-span"></span>

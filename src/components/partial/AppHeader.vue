@@ -2,10 +2,10 @@
   <b-navbar class="fixed-top" toggleable="md" type="dark" variant="info">
     <div class="text-center navbar-brand-wrapper d-flex align=items-top justify-content-center">
       <a class="navbar-brand brand-logo" href="/">
-        <img src="../assets/images/logo.svg" alt="logo"/>
+        <img src="../../assets/images/logo.svg" alt="logo"/>
       </a>
       <a class="navbar-brand brand-logo-mini" href="/">
-        <img alt="logo" src="../assets/images/logo-mini.svg"/>
+        <img alt="logo" src="../../assets/images/logo-mini.svg"/>
       </a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center ml-auto ml-lg-0">
@@ -81,7 +81,7 @@
           </b-dropdown-item>
           <b-dropdown-item class="preview-item">
             <div class="preview-thumbnail">
-              <img src="../assets/images/faces/face10.jpg" alt="image" class="img-sm profile-pic">
+              <img src="../../assets/images/faces/face10.jpg" alt="image" class="img-sm profile-pic">
             </div>
             <div class="preview-item-content flex-grow py-2">
               <p class="preview-subject ellipsis font-weight-medium text-dark">Marian Garner </p>
@@ -90,7 +90,7 @@
           </b-dropdown-item>
           <b-dropdown-item class="preview-item">
             <div class="preview-thumbnail">
-              <img src="../assets/images/faces/face12.jpg" alt="image" class="img-sm profile-pic">
+              <img src="../../assets/images/faces/face12.jpg" alt="image" class="img-sm profile-pic">
             </div>
             <div class="preview-item-content flex-grow py-2">
               <p class="preview-subject ellipsis font-weight-medium text-dark">David Grey</p>
@@ -99,7 +99,7 @@
           </b-dropdown-item>
           <b-dropdown-item class="preview-item">
             <div class="preview-thumbnail">
-              <img src="../assets/images/faces/face1.jpg" alt="image" class="img-sm profile-pic">
+              <img src="../../assets/images/faces/face1.jpg" alt="image" class="img-sm profile-pic">
             </div>
             <div class="preview-item-content flex-grow py-2">
               <p class="preview-subject ellipsis font-weight-medium text-dark">Travis Jenkins</p>
@@ -109,7 +109,7 @@
         </b-nav-item-dropdown>
         <b-nav-item-dropdown right class="preview-list">
           <template slot="button-content">
-            <img src="../assets/images/faces/face4.jpg" alt="profile image"  class="img-xs rounded-circle">
+            <img src="../../assets/images/faces/face4.jpg" alt="profile image"  class="img-xs rounded-circle">
           </template>
           <b-dropdown-item href="javsscript:;" class="preview-item flex-wrap">profile</b-dropdown-item>
           <b-dropdown-item href="javascript:;" class="preview-item flex-wrap" @click="logout">logout</b-dropdown-item>

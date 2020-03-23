@@ -18,7 +18,7 @@
 
 <script>
 // import axios from 'axios'
-import Loading from './Loading.vue'
+import Loading from './partial/Loading.vue'
 
 export default {
   name: 'HomePage',

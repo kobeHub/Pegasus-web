@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '@/components/HomePage'
-import Login from '@/components/Login'
-import Register from '@/components/Register'
+import Login from '@/components/user/Login'
+import Register from '@/components/user/Register'
+import Invitation from '@/components/user/Invitation'
 import Error404 from '@/components/Errors/error-404'
 import Error500 from '@/components/Errors/error-500'
 
@@ -32,6 +33,10 @@ export default new Router({
             path: '/logon/:uuid',
             component: Register,
             props: true
+        },
+        {
+            path: '/invitation',
+            component: Invitation
         },
         {
             path: '/error',

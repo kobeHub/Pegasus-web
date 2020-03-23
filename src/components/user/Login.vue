@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Loading from './Loading.vue'
+import Loading from '../partial/Loading.vue'
 import axios from 'axios'
 
 export default {
@@ -97,16 +97,16 @@ border-radius: 5px; -webkit-box-shadow:  0px 3px 16px -5px #070707; box-shadow: 
 .log-close{display: block; position: absolute; top:12px; right: 12px; opacity: 1;}
 .log-close:hover .icons{transform: rotate(180deg);}
 .log-close .icons{opacity: 1; transition: all .3s}
-.log-cloud{background-image: url(../assets/login-cloud.png); width: 63px ;height: 40px; position: absolute; z-index: 1}
+.log-cloud{background-image: url(../../assets/login-cloud.png); width: 63px ;height: 40px; position: absolute; z-index: 1}
 .login .cloud1{top:21px; left: -30px; transform: scale(.6); animation: cloud1 20s linear infinite;}
 .login .cloud2{top:87px; right: 20px; animation: cloud2 19s linear infinite;}
 .login .cloud3{top:160px; left: 5px;transform: scale(.8);animation: cloud3 21s linear infinite;}
 .login .cloud4{top:150px; left: -40px;transform: scale(.4);animation: cloud4 19s linear infinite;}
-.log-bg{background: url(../assets/login-bg.jpg); width: 100%; height: 312px; overflow: hidden;}
+.log-bg{background: url(../../assets/login-bg.jpg); width: 100%; height: 312px; overflow: hidden;}
 .log-logo{height: 80px; margin: 120px auto 25px; text-align: center; color: #1fcab3; font-weight: bold; font-size: 40px;}
 .log-text{color: #57d4c3; font-size: 13px; text-align: center; margin: 0 auto;}
 .log-logo,.log-text{z-index: 2}
-.icons{background:url(../assets/icons.png) no-repeat; display: inline-block;}
+.icons{background:url(../../assets/icons.png) no-repeat; display: inline-block;}
 .close{height:16px;width:16px;background-position:-13px 0;}
 .login-email{height:17px;width:29px;background-position:-117px 0;}
 .log-btns{padding: 15px 0; margin: 0 auto;}

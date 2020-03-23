@@ -4,11 +4,18 @@ import App from './App.vue'
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import { extend } from 'vee-validate'
+import VueToast from 'vue-toast-notification'
+import 'vue-toast-notification/dist/theme-default.css'
 import { required, email, alpha_dash, confirmed} from 'vee-validate/dist/rules'
 
 Vue.config.productionTip = false
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
+Vue.use(VueToast, {
+    position: 'top-right',
+    duration: 3000,
+    dismissible: true
+})
 
 // Vuex state store
 const store = new Vuex.Store({

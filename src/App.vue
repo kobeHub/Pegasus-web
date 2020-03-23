@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import AppHeader from './components/AppHeader.vue'
-import AppSidebar from './components/AppSidebar.vue'
-import AppFooter from './components/AppFooter.vue'
+import AppHeader from './components/partial/AppHeader.vue'
+import AppSidebar from './components/partial/AppSidebar.vue'
+import AppFooter from './components/partial/AppFooter.vue'
 import axios from 'axios'
 
 export default {
