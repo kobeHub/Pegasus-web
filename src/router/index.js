@@ -4,6 +4,7 @@ import HomePage from '@/components/HomePage'
 import Login from '@/components/user/Login'
 import Register from '@/components/user/Register'
 import Invitation from '@/components/user/Invitation'
+import Department from '@/components/user/Department'
 import Error404 from '@/components/Errors/error-404'
 import Error500 from '@/components/Errors/error-500'
 
@@ -37,6 +38,10 @@ export default new Router({
         {
             path: '/invitation',
             component: Invitation
+        },
+        {
+            path: '/department',
+            component: Department
         },
         {
             path: '/error',

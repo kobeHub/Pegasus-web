@@ -39,7 +39,7 @@
             </ValidationProvider>
 
             <b-form-group>
-              <b-button type="submit" variant="success" class="mr-2" :disable="isSending" @click="sendInvitation">Submit</b-button>
+              <b-button type="submit" variant="success" class="mr-2" :disabled="isSending" @click="sendInvitation">Submit</b-button>
               <b-button variant="light" @click.prevent="onCancel">Cancel</b-button>
             </b-form-group>
           </div>
