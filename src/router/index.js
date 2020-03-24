@@ -36,11 +36,11 @@ export default new Router({
             props: true
         },
         {
-            path: '/invitation',
+            path: '/department/:depart_id',
             component: Invitation
         },
         {
-            path: '/department',
+            path: '/departments',
             component: Department
         },
         {
