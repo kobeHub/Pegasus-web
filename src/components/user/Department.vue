@@ -2,15 +2,18 @@
   <section class="tabs">
     <div class="row">
       <div class="col-8 grid-margin stretch-card mx-auto">
-          <div class="card">
+        <div class="card">
             <div class="card-body">
               <h3 class="card-title">Department management</h3>
-              <b-tabs class="tab-solid tab-solid-danger">
-                <b-tab title="<i class='mdi mdi-delete-forever'></i>Delete" active>
+
+              <b-tabs class="tab-solid tab-solid-success">
+                <b-tab title="<i class='mdi mdi-format-list-bulleted'></i>List" active>
                   <div class="col-xl">
                     <h4>Departments list</h4>
                     <b-table striped hover responsive :items="departments"></b-table>
                   </div>
+
+                  <b-button class="social-btn btn-rounded float-right mt-5" variant="success" @click.prevent="getDepartList"><i class="mdi mdi-refresh"></i></b-button>
                 </b-tab>
 
                 <b-tab title="<i class='mdi mdi-database-plus'>Create">
@@ -46,7 +49,7 @@
               </b-tabs>
             </div>
           </div>
-        </div>
+      </div>
     </div>
     <Loading v-if="isSending" marginTop="-30%"></Loading>
   </section>
@@ -73,11 +76,7 @@ export default {
     ValidationProvider,
   },
   async mounted() {
-    const { data } = await axios.get( '/api/departs/list' )
-    data.forEach(item => {
-      this.departments.push({id: item.id, name: item.name,
-                             admin: item.admin, email: item.email})
-    })
+   await this.getDepartList()
   },
   methods: {
     postDepart() {
@@ -114,7 +113,15 @@ export default {
     onCancel() {
       this.name = ''
       this.adminEmail = ''
-    }
+    },
+    async getDepartList() {
+      const { data } = await axios.get( '/api/departs/list' )
+      this.departments = []
+      data.forEach(item => {
+        this.departments.push({id: item.id, name: item.name,
+                               admin: item.admin, email: item.email})
+      })
+    },
   },
   beforeDestory: function() {
     clearTimeout(this.timer)

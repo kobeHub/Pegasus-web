@@ -1,5 +1,5 @@
 <template>
-<section class="forms">
+<section class="tabs">
     <div class="row">
       <div class="col-6 grid-margin stretch-card mx-auto">
         <div class="card">
@@ -70,6 +70,10 @@ export default {
       isSending: false,
     }
   },
+  props: [
+    'depart_id',
+    'depart_name',
+  ],
   components: {
     Loading,
     ValidationProvider,
