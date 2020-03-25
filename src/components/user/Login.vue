@@ -58,11 +58,12 @@ export default {
       // set status
       this.isLoging = true
       axios.post( '/api/users/login', loginParam).then(response => {
-          console.log(response.data.msg)
           this.$store.commit('updateUserInfo', {
             uid: response.data.id,
             email: response.data.email,
-            name: response.data.name
+            name: response.data.name,
+            role: response.data.role,
+            belong_to: response.data.belong_to,
           })
           this.$store.commit('login')
           this.timer = setTimeout(() => {

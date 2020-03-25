@@ -16,7 +16,7 @@
                   <b-button class="social-btn btn-rounded float-right mt-5" variant="success" @click.prevent="getDepartList"><i class="mdi mdi-refresh"></i></b-button>
                 </b-tab>
 
-                <b-tab title="<i class='mdi mdi-database-plus'>Create">
+                <b-tab :disabled="disableCreate" title="<i class='mdi mdi-database-plus'>Create">
                    <h4 class="card-description">
                      Create new departments
                    </h4>
@@ -71,9 +71,23 @@ export default {
       departments: [],
     }
   },
+  beforeCreate() {
+    if (this.$store.state.userInfo.role == null) {
+      this.$router.push('/login')
+      this.$toast.info('Login first, please')
+    }
+  },
   components: {
     Loading,
     ValidationProvider,
+  },
+  computed: {
+    disableCreate: function() {
+      return this.pageBelong != 'ClusterAdmin'
+    },
+    pageBelong: function() {
+      return this.$store.state.userInfo.role
+    },
   },
   async mounted() {
    await this.getDepartList()

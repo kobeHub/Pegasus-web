@@ -36,8 +36,9 @@ export default new Router({
             props: true
         },
         {
-            path: '/department/:depart_id',
-            component: Invitation
+            path: '/members',
+            component: Invitation,
+            props: true
         },
         {
             path: '/departments',

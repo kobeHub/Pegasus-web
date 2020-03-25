@@ -11,9 +11,9 @@
                   <h4 v-text="'members'"></h4>
                   <b-table striped hover responsive :items="members"></b-table>
                 </div>
-                <b-button class="social-btn btn-rounded float-right mt-5" variant="success" @click.prevent="getDepartList"><i class="mdi mdi-refresh"></i></b-button>
+                <b-button class="social-btn btn-rounded float-right mt-5" variant="success" @click.prevent="getAllInfos"><i class="mdi mdi-refresh"></i></b-button>
               </b-tab>
-              <b-tab title="<i class='mdi mdi-database-plus'></i>Invitation">
+              <b-tab :disabled='this.disableInvit' title="<i class='mdi mdi-database-plus'></i>Invitation">
                 <p class="card-description">
                   Please enter your member information
                 </p>
@@ -59,7 +59,7 @@
       </div>
 
     </div>
-    <Loading v-if="isSending" marginTop="-30%"></Loading>
+    <Loading v-if="isSending" marginTop="-50%"></Loading>
   </section>
 </template>
 
@@ -72,37 +72,62 @@ export default {
   name: "Invitaiton",
   data() {
     return {
+      // Invitation selection list
       departs: [
         { value: '', text: 'Please select an department' },
       ],
+      // users list
+      members: [],
+      // For invitation tables
       email: '',
       department_id: '',
       roles: 'Lessee',
       timer: null,
       isSending: false,
+      // departs info cache
+      departs_cache: null,
     }
   },
-  props: [
-    'depart_id',
-  ],
   components: {
     Loading,
     ValidationProvider,
   },
+  computed: {
+    disableInvit: function() {
+      return this.pageBelong == 'Lessee'
+    },
+    pageBelong: function() {
+      return this.$store.state.userInfo.role
+    },
+    depart_id: function() {
+      return this.$store.state.userInfo.belong_to
+    }
+  },
+  beforeCreate() {
+    if (this.$store.state.userInfo.role == null) {
+      this.$router.push('/login')
+      this.$toast.info('Login first, please')
+    }
+  },
   async mounted() {
-    const { data } = await axios.get( '/api/departs/list' )
-    data.forEach(item => {
-      this.departs.push({value: item.id, text: item.name})
-    })
+    console.log('Pages: ', this.pageBelong)
+    await this.getAllInfos()
   },
   methods: {
     sendInvitation() {
+      if (this.pageBelong == 'DepartmentAdmin' && this.roles == 'DepartmentAdmin') {
+        this.$toast.error('You are not allowed to create department admin')
+        this.roles = 'Lessee'
+        return
+      }
+
       let param = {
         'email': this.email,
         'department': this.department_id,
-        'is_admin': this.roles == 'Lessee',
+        'is_admin': this.roles != 'Lessee',
       }
       this.isSending = true
+
       axios.post( '/api/invitations/post', param).then(res => {
         if (res.data.status) {
           this.$toast.success(res.data.msg)
@@ -128,6 +153,48 @@ export default {
       this.email = ''
       this.department_id = ''
       this.roles = ''
+    },
+    async getAllDeparts(current_role, depart_id) {
+      const { data } = await axios.get( '/api/departs/get' )
+      data.forEach(item => {
+        this.$store.commit('addDepart', item)
+      })
+      // Set selections if is cluster admin
+      if (current_role == 'ClusterAdmin') {
+        data.forEach(item => {
+          this.departs.push({value: item.id, text: item.name})
+        })
+      } else if (current_role == 'DepartmentAdmin') {
+        this.departs.push({value: depart_id,
+                           text: this.$store.state.departs_cache.get(depart_id)})
+      }
+    },
+    async getDepartUserInfo(id) {
+      const { data } = await axios.get( '/api/users/list/' + id )
+      this.members = []
+      data.forEach(item => {
+        this.members.push({name: item.name, email: item.email,
+                           role: item.role,
+                           departmnet: this.$store.state.departs_cache.get(id)})
+      })
+    },
+    async getAllUserInfo() {
+      const { data } = await axios.get( '/api/users/all' )
+      this.members = []
+      data.forEach(item => {
+        this.members.push({name: item.name, email: item.email,
+                           role: item.role,
+                           departmnet: this.$store.state.departs_cache.get(item.belong_to)})
+      })
+    },
+    async getAllInfos() {
+      await this.getAllDeparts(this.pageBelong, this.depart_id)
+
+      if (this.pageBelong == 'ClusterAdmin') {
+        await this.getAllUserInfo()
+      } else {
+        await this.getDepartUserInfo(this.depart_id)
+      }
     }
   },
   beforeDestory: function() {

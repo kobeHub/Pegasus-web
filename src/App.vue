@@ -49,7 +49,9 @@ export default {
     }
   },
   mounted() {
-    this.authoInit()
+    if (this.$store.state.userInfo.role == null) {
+      this.authoInit()
+    }
   },
   methods: {
     authoInit: function(){
@@ -58,7 +60,9 @@ export default {
           this.userInfo = {
             uid: res.data.id,
             email: res.data.email,
-            name: res.data.name
+            name: res.data.name,
+            role: res.data.role,
+            belong_to: res.data.belong_to,
           }
           this.$store.commit('updateUserInfo', this.userInfo)
           this.$store.commit('login')

@@ -24,9 +24,12 @@ const store = new Vuex.Store({
         userInfo: {
             uid: null,
             email: null,
-            name: null
+            name: null,
+            role: null,
+            belong_to: null,
         },
-        isLogged: true
+        isLogged: true,
+        departs_cache: new Map()
     },
     mutations: {
         // update
@@ -37,7 +40,9 @@ const store = new Vuex.Store({
             state.userInfo = {
                 uid: null,
                 email: null,
-                name: null
+                name: null,
+                role: null,
+                belong_to: null
             }
         },
         login(state) {
@@ -45,6 +50,9 @@ const store = new Vuex.Store({
         },
         logout(state) {
             state.isLogged = false
+        },
+        addDepart(state, info) {
+            state.departs_cache.set(info.id, info.name)
         }
     }
 })

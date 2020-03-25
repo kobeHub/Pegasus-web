@@ -124,6 +124,7 @@ export default {
       .catch(err => {
         let res = err.response
         console.log(res)
+        this.isWorking = false
         if (res.status == 500) {
           this.$router.push('/error')
         } else {
@@ -140,7 +141,7 @@ export default {
     },
     async getDepartments() {
       let departments = new Map()
-      let res = await axios( '/api/departs/list')
+      let res = await axios( '/api/departs/get')
       res.data.forEach(function(data) {
           departments.set(data.id, data.name)
       })
