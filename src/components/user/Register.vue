@@ -37,7 +37,7 @@
 
       <a href="javascript:;" class="log-btn" @click="logon">Login</a>
     </form>
-    <Loading v-if="isWorking" marginTop="-30%"></Loading>
+    <Loading v-if="isSending" marginTop="-30%"></Loading>
   </div>
 </template>
 
@@ -59,7 +59,7 @@ export default {
       password: '',
       confirmation: '',
       timer: null,
-      isWorking: false
+      isSending: false
     }
   },
   props: ['uuid'],
@@ -107,28 +107,28 @@ export default {
         belong_to: this.belong_to,
         role: this.getRole(),
       }
-      this.isWroking = true
+      this.isSending = true
       axios.post( '/api/users/register', param ).then(res => {
         console.log(res.data.msg)
         if(res.data.status) {
-          alert('Sign up successfully!')
+          this.$toast.success('Sign up successfully!')
         } else {
-          alert('Email address is occupied!')
+          this.$toast.success('Email address is occupied!')
         }
 
         this.timer = setTimeout(() => {
-          this.isWorking = false
+          this.isSending = false
           this.$router.push('/login')
         }, 1000)
       })
       .catch(err => {
         let res = err.response
         console.log(res)
-        this.isWorking = false
+        this.isSending = false
         if (res.status == 500) {
           this.$router.push('/error')
         } else {
-          alert(res.data.msg)
+          this.$toast.error(res.data.msg)
         }
       })
     },

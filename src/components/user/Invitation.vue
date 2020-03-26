@@ -59,7 +59,7 @@
       </div>
 
     </div>
-    <Loading v-if="isSending" marginTop="-50%"></Loading>
+    <Loading v-if="isSending" marginTop="-30%"></Loading>
   </section>
 </template>
 
