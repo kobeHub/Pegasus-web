@@ -63,7 +63,7 @@
             <div class="preview-item-content">
               <h6 class="preview-subject font-weight-medium">New user registration</h6>
               <p class="font-weight-light small-text">
-                2 days ago
+                 2 days ago
               </p>
             </div>
           </b-dropdown-item>
