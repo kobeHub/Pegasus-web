@@ -5,6 +5,7 @@ import Login from '@/components/user/Login'
 import Register from '@/components/user/Register'
 import Invitation from '@/components/user/Invitation'
 import Department from '@/components/user/Department'
+import NodeGrafana from '@/components/kuber/NodeGrafana'
 import Error404 from '@/components/Errors/error-404'
 import Error500 from '@/components/Errors/error-500'
 
@@ -43,6 +44,10 @@ export default new Router({
         {
             path: '/departments',
             component: Department
+        },
+        {
+            path: '/node',
+            component: NodeGrafana,
         },
         {
             path: '/error',
