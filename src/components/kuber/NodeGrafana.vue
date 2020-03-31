@@ -1,27 +1,24 @@
 <template>
-  <div class="nodeview">
-    <div class="col-12 ml-auto">
+  <div class="nodegrafana">
+    <div class="ml-auto">
       <b-card-group deck>
-        <b-card bg-variant="dark" header="Dark" text-variant="white" class="text-center">
-          <iframe src="http://grafana.local/d-solo/mNdiCfrWz/pegasus-front?orgId=1&refresh=10s&from=1585564422701&to=1585564722701&panelId=6" width="450" height="200" frameborder="0"></iframe>
-          <div>
-
-          </div>
+        <b-card bg-variant="light" header="Cluster CPU Usage" text-variant="dark" class="text-center">
+          <iframe :src="ccpuUrl" width="400" height="300" frameborder="0"></iframe>
         </b-card>
 
-        <b-card bg-variant="dark" header="Dark" text-variant="white" class="text-center">
-          <b-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</b-card-text>
+        <b-card bg-variant="light" header="Cluster Memory Usage" text-variant="dark" class="text-center">
+          <iframe frameborder="0" width="400" height="300" :src="cmemUrl"></iframe>
         </b-card>
       </b-card-group>
     </div>
-    <div class="col-12 mt-3 ml-auto">
+    <div class="mt-5 ml-auto">
       <b-card-group deck>
-        <b-card bg-variant="dark" header="Dark" text-variant="white" class="text-center">
-          <b-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</b-card-text>
+        <b-card bg-variant="light" header="Nodes CPU stat" text-variant="dark" class="text-center">
+          <iframe frameborder="0" width="500" height="300" :src="ncpuUrl"></iframe>
         </b-card>
 
-        <b-card bg-variant="dark" header="Dark" text-variant="white" class="text-center">
-          <b-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</b-card-text>
+        <b-card bg-variant="light" header="Node Memory stat" text-variant="dark" class="text-center">
+          <iframe frameborder="0" width="500" height="300" :src="nmemUrl" scrolling=no></iframe>
         </b-card>
       </b-card-group>
     </div>
@@ -31,6 +28,14 @@
 <script>
 export default {
   name: 'NodeGrafana',
+  data() {
+    return {
+      ccpuUrl: 'http://grafana.local/d-solo/mNdiCfrWz/pegasus-front?orgId=1&refresh=10s&theme=light&panelId=6',
+      cmemUrl: 'http://grafana.local/d-solo/mNdiCfrWz/pegasus-front?orgId=1&refresh=10s&theme=light&panelId=8',
+      ncpuUrl: 'http://grafana.local/d-solo/mNdiCfrWz/pegasus-front?orgId=1&refresh=10s&theme=light&panelId=2',
+      nmemUrl: 'http://grafana.local/d-solo/mNdiCfrWz/pegasus-front?orgId=1&refresh=10s&theme=light&panelId=4',
+    }
+  },
 }
 </script>
 

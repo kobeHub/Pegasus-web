@@ -35,7 +35,7 @@
           </ValidationProvider>
         </ValidationObserver>
 
-      <a href="javascript:;" class="log-btn" @click="logon">Login</a>
+      <a href="javascript:;" class="log-btn" @click="logon">Sign up</a>
     </form>
     <Loading v-if="isSending" marginTop="-30%"></Loading>
   </div>
