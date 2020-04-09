@@ -7,7 +7,10 @@
               <h3 class="card-title">Department management</h3>
 
               <b-tabs class="tab-solid tab-solid-success">
-                <b-tab title="<i class='mdi mdi-format-list-bulleted'></i>List" active>
+                <b-tab active>
+                  <template v-slot:title>
+                    <i class='mdi mdi-format-list-bulleted'>List</i>
+                  </template>
                   <div class="col-xl">
                     <h4>Departments list</h4>
                     <b-table striped hover responsive :items="departments"></b-table>
@@ -16,7 +19,10 @@
                   <b-button class="social-btn btn-rounded float-right mt-5" variant="success" @click.prevent="getDepartList"><i class="mdi mdi-refresh"></i></b-button>
                 </b-tab>
 
-                <b-tab :disabled="disableCreate" title="<i class='mdi mdi-database-plus'>Create">
+                <b-tab :disabled="disableCreate">
+                  <template v-slot:title>
+                    <i class='mdi mdi-database-plus'>Create</i>
+                  </template>
                    <h4 class="card-description">
                      Create new departments
                    </h4>

@@ -6,14 +6,20 @@
           <div class="card-body">
             <h4 class="card-title">Department member</h4>
             <b-tabs class="tab-solid tab-solid-success">
-              <b-tab title="<i class='mdi mdi-format-list-bulleted'></i>Memobers" active>
+              <b-tab  active>
+                <template v-slot:title>
+                  <i class='mdi mdi-format-list-bulleted'>Members</i>
+                </template>
                 <div class="col-xl">
                   <h4 v-text="'members'"></h4>
                   <b-table striped hover responsive :items="members"></b-table>
                 </div>
                 <b-button class="social-btn btn-rounded float-right mt-5" variant="success" @click.prevent="getAllInfos"><i class="mdi mdi-refresh"></i></b-button>
               </b-tab>
-              <b-tab :disabled='this.disableInvit' title="<i class='mdi mdi-database-plus'></i>Invitation">
+              <b-tab :disabled='this.disableInvit'>
+                <template v-slot:title>
+                  <i class='mdi mdi-database-plus'>Invitation</i>
+                </template>
                 <p class="card-description">
                   Please enter your member information
                 </p>

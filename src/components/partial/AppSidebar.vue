@@ -13,7 +13,7 @@
           </div>
         </li>
         <li class="nav-item"><router-link class="nav-link" to="/"><img class="menu-icon" src="../../assets/images/menu_icons/01.png" alt="menu icon"><span class="menu-title">Dashboard</span></router-link></li>
-        <li class="nav-item"><router-link class="nav-link" to="/tasks"><img class="menu-icon" src="../../assets/images/menu_icons/02.png" alt="menu icon"><span class="menu-title">Tasks</span></router-link></li>
+        <li class="nav-item"><router-link class="nav-link" to="/task"><img class="menu-icon" src="../../assets/images/menu_icons/02.png" alt="menu icon"><span class="menu-title">Tasks</span></router-link></li>
         <li class="nav-item">
           <span class="nav-link" v-b-toggle="'depart-member'">
             <img class="menu-icon" src="../../assets/images/menu_icons/08.png" alt="menu icon"><span class="menu-title">Depart & members</span><i class="menu-arrow"></i>
