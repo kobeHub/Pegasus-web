@@ -4,10 +4,19 @@
       <div class="col-xl-6 col-sm-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-              <h4 class="card-title mb-4">Namespaces</h4>
-              <h6 class="card-description text-info">
+            <h4 class="card-title mb-4">Namespaces</h4>
+            <b-row align-h="between">
+              <b-col cols="8"><h6 class="card-description text-info">
                 Select namespaces as work environment
               </h6>
+              </b-col>
+              <b-col cols="4">
+                <b-button-group>
+                  <b-button class="btn-fw btn-rounded mb-3" variant="secondary"><i class="mdi mdi-plus-circle-outline"></i></b-button>
+                  <b-button class="btn-fw btn-rounded mb-3" variant="light"><i class="mdi mdi-refresh"></i></b-button>
+                </b-button-group>
+              </b-col>
+            </b-row>
 
               <div class="d-flex justify-content-between flex-wrap">
                 <b-table responsive hover striped fixed
@@ -30,9 +39,14 @@
                     <b-badge pill variant="success">Active</b-badge>
                   </template>
                   <template v-slot:cell(actions)>
-                    <b-button variant="danger">
-                      <i class="mdi mdi-delete-forever">delete</i>
-                    </b-button>
+                    <b-button-group>
+                      <b-button class="btn-rounded" variant="danger">
+                        <i class="mdi mdi-delete-forever">delete</i>
+                      </b-button>
+                      <b-button class="btn-rounded" variant="light">
+                        <i class="mdi mdi-pencil">edit</i>
+                      </b-button>
+                    </b-button-group>
                   </template>
                 </b-table>
               </div>
@@ -43,7 +57,18 @@
           <div class="card">
             <div class="card-body">
               <h4 class="card-title mb-4">Deployments</h4>
-              <h6 class="card-description text-info">Select one deployment.</h6>
+              <b-row align-h="between">
+                <b-col cols="8"><h6 class="card-description text-info">
+                  Select one deployment.
+                </h6>
+                </b-col>
+                <b-col cols="4">
+                  <b-button-group>
+                    <b-button class="btn-fw btn-rounded mb-3" variant="secondary"><i class="mdi mdi-plus-circle-outline"></i></b-button>
+                    <b-button class="btn-fw btn-rounded mb-3" variant="light"><i class="mdi mdi-refresh"></i></b-button>
+                  </b-button-group>
+                </b-col>
+              </b-row>
 
               <div class="d-flex justify-content-between flex-wrap">
                 <b-table responsive hover striped fixed
@@ -66,9 +91,14 @@
                     <b-badge pill variant="success">Active</b-badge>
                   </template>
                   <template v-slot:cell(actions)>
-                    <b-button variant="danger">
-                      <i class="mdi mdi-delete">delete</i>
-                    </b-button>
+                    <b-button-group>
+                      <b-button class="btn-rounded" variant="danger">
+                        <i class="mdi mdi-delete-forever">delete</i>
+                      </b-button>
+                      <b-button class="btn-rounded" variant="light">
+                        <i class="mdi mdi-pencil">edit</i>
+                      </b-button>
+                    </b-button-group>
                   </template>
                 </b-table>
               </div>
@@ -82,7 +112,20 @@
           <div class="card">
             <div class="card-body">
               <h4 class="card-title mb-4">Services</h4>
-              <h6 class="card-description text-info">Services under selected work enviroment</h6>
+              <h6 class="card-description text-info"></h6>
+              <b-row align-h="between">
+                <b-col cols="8"><h6 class="card-description text-info">
+                  Services under selected work enviroment
+                </h6>
+                </b-col>
+                <b-col cols="4">
+                  <b-button-group>
+                    <b-button class="btn-fw btn-rounded mb-3" variant="secondary"><i class="mdi mdi-plus-circle-outline"></i></b-button>
+                    <b-button class="btn-fw btn-rounded mb-3" variant="light"><i class="mdi mdi-refresh"></i></b-button>
+                  </b-button-group>
+                </b-col>
+              </b-row>
+
               <div class="d-flex justify-content-between flex-wrap">
                 <b-table responsive hover striped fixed
                   :fields="svcFields" :items="svcItems">
@@ -90,9 +133,14 @@
                     <b-badge pill variant="success">Active</b-badge>
                   </template>
                   <template v-slot:cell(actions)>
-                    <b-button variant="danger">
-                      <i class="mdi mdi-delete">delete</i>
-                    </b-button>
+                    <b-button-group>
+                      <b-button class="btn-rounded" variant="danger">
+                        <i class="mdi mdi-delete-forever">delete</i>
+                      </b-button>
+                      <b-button class="btn-rounded" variant="light">
+                        <i class="mdi mdi-pencil">edit</i>
+                      </b-button>
+                    </b-button-group>
                   </template>
                 </b-table>
               </div>
@@ -111,9 +159,9 @@
                   <b-badge pill variant="success">Active</b-badge>
                 </template>
                 <template v-slot:cell(actions)>
-                  <b-button variant="danger">
-                    <i class="mdi mdi-delete">remove</i>
-                  </b-button>
+                    <b-button class="btn-rounded" variant="danger">
+                      <i class="mdi mdi-delete-forever">delete</i>
+                    </b-button>
                 </template>
               </b-table>
             </div>
@@ -147,6 +195,7 @@ export default {
         'actions'
       ],
       'nsItems': [],
+      'allns': [],
       'nsSelected': [],
       'deployFields': [
         {
@@ -164,6 +213,7 @@ export default {
         },
         'actions'
       ],
+      'alldeploy': null,
       'deployItems': [],
       'deploySelected': [],
       'svcFields': [
@@ -178,6 +228,7 @@ export default {
         },
         'actions'
       ],
+      'allsvc': null,
       'svcItems': [],
       'podFields': [
         {
@@ -192,6 +243,7 @@ export default {
         },
         'actions'
       ],
+      'allpod': null,
       'podItems': [],
     }
   },
@@ -207,47 +259,66 @@ export default {
     async getTaskInfos() {
       const { data } = await axios.get( '/api/tasks/infos?id=' + this.currentId )
       let infos = data.data
+      this.allns = infos.namespace
+      this.alldeploy = infos.deploy
+      this.allsvc = infos.service
+      this.allpod = infos.pod
       this.nsItems = []
       // TODO: isActive to be updated
       infos.namespace.forEach(item => {
         this.nsItems.push({name: item, isActive: true})
       })
 
+      this.setDeploy(infos.namespace)
+      this.setService(infos.namespace)
+      this.setPod(this.alldeploy)
+    },
+    // All the table set functions
+    setDeploy(nss) {
       this.deployItems = []
       //TODO:
-      for (var ns1 in infos.deploy) {
-        infos.deploy[ns1].forEach(item => {
-          this.deployItems.push({name: item, isActive: true, namespace: ns1})
+      nss.forEach(ns => {
+        this.alldeploy[ns].forEach(item => {
+          this.deployItems.push({name: item, isActive: true, namespace: ns})
         })
-      }
-
-      // TODO:
+      })
+    },
+    setService(nss) {
       this.svcItems = []
-      for (var ns2 in infos.service) {
-        infos.service[ns2].forEach(item => {
-          this.svcItems.push({name: item, namespace: ns2, isActive: true})
+      //TODO
+      nss.forEach(ns => {
+        this.allsvc[ns].forEach(item => {
+          this.svcItems.push({name: item, namespace: ns, isActive: true})
         })
-      }
-
-      // TODO:
+      })
+    },
+    setPod(deploy_info) {
       this.podItems = []
-      for (var ns3 in infos.pod) {
-        for (var deploy in infos.pod[ns3]) {
-          infos.pod[ns3][deploy].forEach(item => {
-            this.podItems.push({name: item, deployment: deploy, namespace: ns3, isActive: true})
+      for (var ns in deploy_info) {
+        deploy_info[ns].forEach(deploy => {
+          this.allpod[ns][deploy].forEach(item => {
+            this.podItems.push({name: item, deployment: deploy, namespace: ns, isActive: true})
           })
-        }
+        })
       }
     },
+    // table click events
     onNsSelected(items) {
+      this.nsSelected = []
       if (items.length == 0) {
         this.$toast.info("Display all namespaces infomations")
+        this.setDeploy(this.allns)
+        this.setService(this.allns)
         return
       }
-      this.nsSelected = items
-      let names = ''
-      items.forEach(i => names += ' ' + i.name)
-      this.$toast.info('Use namespace ' + names + ' as work enviroment')
+      items.forEach(item => {
+        this.nsSelected.push(item.name)
+      })
+      console.log(this.nsSelected.toString())
+      this.$toast.info('Use namespace ' + this.nsSelected.toString() + ' as work enviroment')
+
+      this.setDeploy(this.nsSelected)
+      this.setService(this.nsSelected)
     }
   },
 }
