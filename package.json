@@ -16,7 +16,7 @@
     "flag-icon-css": "2.9.0",
     "font-awesome": "4.7.0",
     "mdi": "2.1.19",
-    "minimist": "^1.2.2",
+    "minimist": "^1.2.3",
     "vee-validate": "^3.2.5",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
