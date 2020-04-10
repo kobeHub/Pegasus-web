@@ -76,7 +76,7 @@ export default {
         let res = err.response
         console.log(res)
         if (res.status == 401) {
-          alert(res.data.msg)
+          this.$alert(res.data.msg, 'Login Status', 'error')
         } else {
           this.$router.push('/error')
         }

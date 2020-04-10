@@ -14,7 +14,7 @@
               </b-col>
               <b-col cols="4">
                 <b-button-group>
-                  <b-button class="btn-fw btn-rounded mb-3" variant="secondary" href="/createns">
+                  <b-button class="btn-fw btn-rounded mb-3" variant="secondary" @click="createNs">
                     <i class="mdi mdi-plus-circle-outline"></i></b-button>
                   <b-button class="btn-fw btn-rounded mb-3" variant="light"
                     @click.prevent="onRefresh"><i class="mdi mdi-refresh"></i></b-button>
@@ -378,8 +378,23 @@ export default {
         reverseButtons: true,
       }).then((result) => {
         if (result.value) {
-          this.$alert('Namespace deleted successfully', 'Deleted', 'success')
-          this.nsItems.splice(row.index, 1)
+          axios.delete( '/api/ns/delete', {
+            data: {
+              uid: this.currentId,
+              namespace: row.item.name,
+            }
+          }).then(res => {
+            this.$toast.info(res.data.msg)
+            this.$alert('Namespace deleted successfully', 'Deleted', 'success')
+            this.nsItems.splice(row.index, 1)
+          }).catch(err => {
+            let res = err.response
+            if (res.status == 500) {
+              this.$router.push('/error')
+            } else {
+              this.$toast.error(res.data.msg)
+            }
+          })
         } else {
           this.$alert('Namespace didn\'t deleted', 'Cancel', 'success')
         }
@@ -396,8 +411,23 @@ export default {
         reverseButtons: true,
       }).then((result) => {
         if (result.value) {
-          this.$alert('Deployment deleted successfully', 'Deleted', 'success')
-          this.deployItems.splice(row.index, 1)
+          axios.delete( '/api/tasks/deploy', {
+            data: {
+              name: row.item.name,
+              namespace: row.item.namespace,
+            }
+          }).then(res => {
+            this.$toast.info(res.data.msg)
+            this.$alert('Deployment deleted successfully', 'Deleted', 'success')
+            this.deployItems.splice(row.index, 1)
+          }).catch(err => {
+            let res = err.response
+            if (res.status == 500) {
+              this.$router.push('/error')
+            } else {
+              this.$toast.error(res.data.msg)
+            }
+          })
         } else {
           this.$alert('Deployment didn\'t delete', 'Cancel', 'success')
         }
@@ -414,8 +444,23 @@ export default {
         reverseButtons: true,
       }).then((result) => {
         if (result.value) {
-          this.$alert('Service deleted successfully', 'Deleted', 'success')
-          this.svcItems.splice(row.index, 1)
+          axios.delete( '/api/tasks/svc', {
+            data: {
+              name: row.item.name,
+              namespace: row.item.namespace,
+            }
+          }).then(res => {
+            this.$toast.info(res.data.msg)
+            this.$alert('Service deleted successfully', 'Deleted', 'success')
+            this.svcItems.splice(row.index, 1)
+          }).catch(err => {
+            let res = err.response
+            if (res.status == 500) {
+              this.$router.push('/error')
+            } else {
+              this.$toast.error(res.data.msg)
+            }
+          })
         } else {
           this.$alert('Service didn\'t delete', 'Cancel', 'success')
         }
@@ -432,12 +477,46 @@ export default {
         reverseButtons: true,
       }).then((result) => {
         if (result.value) {
-          this.$alert('Pod deleted successfully', 'Deleted', 'success')
-          this.podItems.splice(row.index, 1)
+          axios.delete( '/api/tasks/pod', { data: {
+            name: row.item.name,
+            namespace: row.item.namespace
+          }}).then(res => {
+            this.$toast.info(res.data.msg)
+            this.$alert('Pod deleted successfully', 'Deleted', 'success')
+            this.podItems.splice(row.index, 1)
+          }).catch(err => {
+            let res = err.response
+            if (res.status == 500) {
+              this.$router.push('/error')
+            } else {
+              this.$toast.error(res.data.msg)
+            }
+          })
         } else {
           this.$alert('Pod didn\'t delete', 'Cancel', 'success')
         }
       })
+    },
+    // create ns
+    createNs() {
+      this.$prompt(
+        'Enter your namespace name',
+        'example-ns',
+        'Namespace',
+        'question',
+        { input: 'text' }
+      ).then(r => {
+        axios.post( '/api/ns/create', {uid: this.currentId, ns: r} ).then(() => {
+          this.$alert(r, 'Create namespace successfully', 'success')
+        }).catch(err => {
+          let res = err.response
+          if (res.status == 500) {
+            this.$router.push('/error')
+          } else {
+            this.$toast.error(res.data.msg)
+          }
+        })
+      }).catch(() => console.log('cancel'))
     }
   },
   beforeDestory: function() {
