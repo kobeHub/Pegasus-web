@@ -7,6 +7,7 @@ import { extend } from 'vee-validate'
 import VueToast from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-default.css'
 import { required, email, alpha_dash, confirmed} from 'vee-validate/dist/rules'
+import VueSimpleAlert from 'vue-simple-alert'
 
 Vue.config.productionTip = false
 Vue.use(Vuex)
@@ -16,6 +17,7 @@ Vue.use(VueToast, {
     duration: 3000,
     dismissible: true
 })
+Vue.use(VueSimpleAlert)
 
 // Vuex state store
 const store = new Vuex.Store({

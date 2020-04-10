@@ -1,27 +1,32 @@
 <template>
   <section class="taskview">
+    <b-overlay :show="isLoading" rounded="sm">
     <div class="row">
       <div class="col-xl-6 col-sm-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
             <h4 class="card-title mb-4">Namespaces</h4>
             <b-row align-h="between">
-              <b-col cols="8"><h6 class="card-description text-info">
+              <b-col cols="8">
+                <h6 class="card-description text-info">
                 Select namespaces as work environment
               </h6>
               </b-col>
               <b-col cols="4">
                 <b-button-group>
-                  <b-button class="btn-fw btn-rounded mb-3" variant="secondary"><i class="mdi mdi-plus-circle-outline"></i></b-button>
-                  <b-button class="btn-fw btn-rounded mb-3" variant="light"><i class="mdi mdi-refresh"></i></b-button>
+                  <b-button class="btn-fw btn-rounded mb-3" variant="secondary" href="/createns">
+                    <i class="mdi mdi-plus-circle-outline"></i></b-button>
+                  <b-button class="btn-fw btn-rounded mb-3" variant="light"
+                    @click.prevent="onRefresh"><i class="mdi mdi-refresh"></i></b-button>
                 </b-button-group>
               </b-col>
             </b-row>
 
               <div class="d-flex justify-content-between flex-wrap">
                 <b-table responsive hover striped fixed
+                  ref="nsSelect"
                   selectable
-                  :selectMode="multi"
+                  select-mode="multi"
                   :fields="nsFields"
                   :items="nsItems"
                   @row-selected="onNsSelected">
@@ -35,15 +40,16 @@
                       <span class="sr-only">Not selected</span>
                     </template>
                   </template>
-                  <template v-slot:cell(isActive)>
-                    <b-badge pill variant="success">Active</b-badge>
+                  <template v-slot:cell(isActive)="{ value }">
+                    <b-badge pill v-if="value" variant="success">Active</b-badge>
+                    <b-badge pill v-if="!value" variant="danger">Invalid</b-badge>
                   </template>
-                  <template v-slot:cell(actions)>
+                  <template v-slot:cell(actions)="row">
                     <b-button-group>
-                      <b-button class="btn-rounded" variant="danger">
+                      <b-button class="btn-rounded" variant="danger" @click="onDeleteNs(row)">
                         <i class="mdi mdi-delete-forever">delete</i>
                       </b-button>
-                      <b-button class="btn-rounded" variant="light">
+                      <b-button class="btn-rounded" variant="light" :href="`/editns/${row.item.name}`">
                         <i class="mdi mdi-pencil">edit</i>
                       </b-button>
                     </b-button-group>
@@ -64,16 +70,19 @@
                 </b-col>
                 <b-col cols="4">
                   <b-button-group>
-                    <b-button class="btn-fw btn-rounded mb-3" variant="secondary"><i class="mdi mdi-plus-circle-outline"></i></b-button>
-                    <b-button class="btn-fw btn-rounded mb-3" variant="light"><i class="mdi mdi-refresh"></i></b-button>
+                    <b-button class="btn-fw btn-rounded mb-3" variant="secondary" href="/createdeploy">
+                      <i class="mdi mdi-plus-circle-outline"></i></b-button>
+                    <b-button class="btn-fw btn-rounded mb-3" variant="light"
+                      @click.prevent="onRefresh"><i class="mdi mdi-refresh"></i></b-button>
                   </b-button-group>
                 </b-col>
               </b-row>
 
               <div class="d-flex justify-content-between flex-wrap">
                 <b-table responsive hover striped fixed
+                  ref="deploySelect"
                   selectable
-                  :selectMode="single"
+                  select-mode="single"
                   :fields="deployFields"
                   :items="deployItems"
                   @row-selected="onDeploySelected">
@@ -87,15 +96,17 @@
                       <span class="sr-only">Not selected</span>
                     </template>
                   </template>
-                  <template v-slot:cell(isActive)>
-                    <b-badge pill variant="success">Active</b-badge>
+                  <template v-slot:cell(isActive)="{ value }">
+                    <b-badge pill v-if="value" variant="success">Active</b-badge>
+                    <b-badge pill v-if="!value" variant="danger">Invalid</b-badge>
                   </template>
-                  <template v-slot:cell(actions)>
+                  <template v-slot:cell(actions)="row">
                     <b-button-group>
-                      <b-button class="btn-rounded" variant="danger">
+                      <b-button class="btn-rounded" variant="danger" @click="onDeleteDeploy(row)">
                         <i class="mdi mdi-delete-forever">delete</i>
                       </b-button>
-                      <b-button class="btn-rounded" variant="light">
+                      <b-button class="btn-rounded" variant="light"
+                        :href="`/editdeploy/${row.item.namespace}/${row.item.name}`">
                         <i class="mdi mdi-pencil">edit</i>
                       </b-button>
                     </b-button-group>
@@ -120,8 +131,10 @@
                 </b-col>
                 <b-col cols="4">
                   <b-button-group>
-                    <b-button class="btn-fw btn-rounded mb-3" variant="secondary"><i class="mdi mdi-plus-circle-outline"></i></b-button>
-                    <b-button class="btn-fw btn-rounded mb-3" variant="light"><i class="mdi mdi-refresh"></i></b-button>
+                    <b-button class="btn-fw btn-rounded mb-3" variant="secondary" href="/createsvc">
+                      <i class="mdi mdi-plus-circle-outline"></i></b-button>
+                    <b-button class="btn-fw btn-rounded mb-3" variant="light"
+                      @click.prevent="onRefresh"><i class="mdi mdi-refresh"></i></b-button>
                   </b-button-group>
                 </b-col>
               </b-row>
@@ -129,15 +142,17 @@
               <div class="d-flex justify-content-between flex-wrap">
                 <b-table responsive hover striped fixed
                   :fields="svcFields" :items="svcItems">
-                  <template v-slot:cell(isActive)>
-                    <b-badge pill variant="success">Active</b-badge>
+                  <template v-slot:cell(isActive)="{ value }">
+                    <b-badge pill v-if="value" variant="success">Active</b-badge>
+                    <b-badge pill v-if="!value" variant="danger">Invalid</b-badge>
                   </template>
-                  <template v-slot:cell(actions)>
+                  <template v-slot:cell(actions)="row">
                     <b-button-group>
-                      <b-button class="btn-rounded" variant="danger">
+                      <b-button class="btn-rounded" variant="danger" @click="onDeleteSvc(row)">
                         <i class="mdi mdi-delete-forever">delete</i>
                       </b-button>
-                      <b-button class="btn-rounded" variant="light">
+                      <b-button class="btn-rounded" variant="light"
+                        :href="`/editsvc/${row.item.namespace}/${row.item.name}`">
                         <i class="mdi mdi-pencil">edit</i>
                       </b-button>
                     </b-button-group>
@@ -155,11 +170,12 @@
             <div class="d-flex justify-content-between flex-wrap">
               <b-table responsive hover striped fixed
                 :fields="podFields" :items="podItems">
-                <template v-slot:cell(isActive)>
-                  <b-badge pill variant="success">Active</b-badge>
+                <template v-slot:cell(isActive)="{ value }">
+                  <b-badge pill v-if="value" variant="success">Active</b-badge>
+                  <b-badge pill v-if="!value" variant="danger">Invalid</b-badge>
                 </template>
-                <template v-slot:cell(actions)>
-                    <b-button class="btn-rounded" variant="danger">
+                <template v-slot:cell(actions)="row">
+                    <b-button class="btn-rounded" variant="danger" @click="onDeletePod(row)">
                       <i class="mdi mdi-delete-forever">delete</i>
                     </b-button>
                 </template>
@@ -169,7 +185,8 @@
         </div>
       </div>
     </div>
-  </section>
+    </b-overlay>
+    </section>
 </template>
 
 <script>
@@ -245,6 +262,14 @@ export default {
       ],
       'allpod': null,
       'podItems': [],
+      'isLoading': false,
+      'timer': null
+    }
+  },
+  beforeCreate() {
+    if (this.$store.state.userInfo.role == null) {
+      this.$router.push('/login')
+      this.$toast.info('Login first, please')
     }
   },
   computed: {
@@ -279,7 +304,7 @@ export default {
       //TODO:
       nss.forEach(ns => {
         this.alldeploy[ns].forEach(item => {
-          this.deployItems.push({name: item, isActive: true, namespace: ns})
+          this.deployItems.push({name: item.name, isActive: item.state, namespace: ns})
         })
       })
     },
@@ -288,7 +313,7 @@ export default {
       //TODO
       nss.forEach(ns => {
         this.allsvc[ns].forEach(item => {
-          this.svcItems.push({name: item, namespace: ns, isActive: true})
+          this.svcItems.push({name: item.name, namespace: ns, isActive: item.state})
         })
       })
     },
@@ -296,8 +321,9 @@ export default {
       this.podItems = []
       for (var ns in deploy_info) {
         deploy_info[ns].forEach(deploy => {
-          this.allpod[ns][deploy].forEach(item => {
-            this.podItems.push({name: item, deployment: deploy, namespace: ns, isActive: true})
+          this.allpod[ns][deploy.name].forEach(item => {
+            this.podItems.push({name: item.name, deployment: deploy.name,
+                                namespace: ns, isActive: item.state})
           })
         })
       }
@@ -314,13 +340,109 @@ export default {
       items.forEach(item => {
         this.nsSelected.push(item.name)
       })
-      console.log(this.nsSelected.toString())
       this.$toast.info('Use namespace ' + this.nsSelected.toString() + ' as work enviroment')
 
       this.setDeploy(this.nsSelected)
       this.setService(this.nsSelected)
+    },
+    onDeploySelected(items) {
+      if (items.length == 0) {
+        this.setPod(this.alldeploy)
+        return
+      }
+      let item = items[0]
+      this.podItems = []
+      this.allpod[item.namespace][item.name].forEach(pod => {
+        this.podItems.push({name: pod.name, deployment: item.name, namespace: item.namespace, isActive: pod.state})
+      })
+    },
+    onRefresh() {
+      this.$refs.nsSelect.clearSelected()
+      this.$refs.deploySelect.clearSelected()
+      this.isLoading = true
+      this.getTaskInfos().then(() => {
+        this.timer = setTimeout(() => {
+          this.isLoading = false
+        }, 500)
+      })
+    },
+    // TODO: click
+    onDeleteNs(row) {
+      this.$fire({
+        title: 'Are you sure to delete ns?',
+        text: 'Before delete the namespace, please make sure all resources within it be deleted first!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.value) {
+          this.$alert('Namespace deleted successfully', 'Deleted', 'success')
+          this.nsItems.splice(row.index, 1)
+        } else {
+          this.$alert('Namespace didn\'t deleted', 'Cancel', 'success')
+        }
+      })
+    },
+    onDeleteDeploy(row) {
+      this.$fire({
+        title: 'Are you sure to delete deploy?',
+        text: 'All the pods within the deploy will be deleted permanent!!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.value) {
+          this.$alert('Deployment deleted successfully', 'Deleted', 'success')
+          this.deployItems.splice(row.index, 1)
+        } else {
+          this.$alert('Deployment didn\'t delete', 'Cancel', 'success')
+        }
+      })
+    },
+    onDeleteSvc(row) {
+      this.$fire({
+        title: 'Are you sure to delete service?',
+        text: 'Delete service cannot be accessed!!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.value) {
+          this.$alert('Service deleted successfully', 'Deleted', 'success')
+          this.svcItems.splice(row.index, 1)
+        } else {
+          this.$alert('Service didn\'t delete', 'Cancel', 'success')
+        }
+      })
+    },
+    onDeletePod(row) {
+      this.$fire({
+        title: 'Are you sure to delete pod?',
+        text: 'A new pod will be created, but be caution about statefulset, the state will be lose!!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.value) {
+          this.$alert('Pod deleted successfully', 'Deleted', 'success')
+          this.podItems.splice(row.index, 1)
+        } else {
+          this.$alert('Pod didn\'t delete', 'Cancel', 'success')
+        }
+      })
     }
   },
+  beforeDestory: function() {
+    clearTimeout(this.timer)
+  }
 }
 </script>
 
