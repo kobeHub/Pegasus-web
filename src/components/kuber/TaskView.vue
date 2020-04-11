@@ -45,14 +45,9 @@
                     <b-badge pill v-if="!value" variant="danger">Invalid</b-badge>
                   </template>
                   <template v-slot:cell(actions)="row">
-                    <b-button-group>
                       <b-button class="btn-rounded" variant="danger" @click="onDeleteNs(row)">
                         <i class="mdi mdi-delete-forever">delete</i>
                       </b-button>
-                      <b-button class="btn-rounded" variant="light" :href="`/editns/${row.item.name}`">
-                        <i class="mdi mdi-pencil">edit</i>
-                      </b-button>
-                    </b-button-group>
                   </template>
                 </b-table>
               </div>
@@ -70,7 +65,7 @@
                 </b-col>
                 <b-col cols="4">
                   <b-button-group>
-                    <b-button class="btn-fw btn-rounded mb-3" variant="secondary" href="/createdeploy">
+                    <b-button class="btn-fw btn-rounded mb-3" variant="secondary" @click="$router.push('/createdeploy')">
                       <i class="mdi mdi-plus-circle-outline"></i></b-button>
                     <b-button class="btn-fw btn-rounded mb-3" variant="light"
                       @click.prevent="onRefresh"><i class="mdi mdi-refresh"></i></b-button>
@@ -106,7 +101,7 @@
                         <i class="mdi mdi-delete-forever">delete</i>
                       </b-button>
                       <b-button class="btn-rounded" variant="light"
-                        :href="`/editdeploy/${row.item.namespace}/${row.item.name}`">
+                        @click="$router.push(`/editdeploy/${row.item.namespace}/${row.item.name}`)">
                         <i class="mdi mdi-pencil">edit</i>
                       </b-button>
                     </b-button-group>
@@ -131,7 +126,7 @@
                 </b-col>
                 <b-col cols="4">
                   <b-button-group>
-                    <b-button class="btn-fw btn-rounded mb-3" variant="secondary" href="/createsvc">
+                    <b-button class="btn-fw btn-rounded mb-3" variant="secondary" @click="$router.push('/createsvc')">
                       <i class="mdi mdi-plus-circle-outline"></i></b-button>
                     <b-button class="btn-fw btn-rounded mb-3" variant="light"
                       @click.prevent="onRefresh"><i class="mdi mdi-refresh"></i></b-button>
@@ -152,7 +147,7 @@
                         <i class="mdi mdi-delete-forever">delete</i>
                       </b-button>
                       <b-button class="btn-rounded" variant="light"
-                        :href="`/editsvc/${row.item.namespace}/${row.item.name}`">
+                        @click="$router.push(`/editsvc/${row.item.namespace}/${row.item.name}`)">
                         <i class="mdi mdi-pencil">edit</i>
                       </b-button>
                     </b-button-group>
