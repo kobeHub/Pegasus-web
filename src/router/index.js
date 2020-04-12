@@ -7,6 +7,7 @@ import Invitation from '@/components/user/Invitation'
 import Department from '@/components/user/Department'
 import TaskView from '@/components/kuber/TaskView'
 import DeployView from '@/components/kuber/DeployView'
+import ServiceView from '@/components/kuber/ServiceView'
 
 import Error404 from '@/components/Errors/error-404'
 import Error500 from '@/components/Errors/error-500'
@@ -54,6 +55,10 @@ export default new Router({
         {
             path: '/createdeploy',
             component: DeployView,
+        },
+        {
+            path: '/createsvc',
+            component: ServiceView
         },
         {
             path: '/error',

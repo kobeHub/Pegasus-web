@@ -4,7 +4,7 @@
       <div class="col-xl-6 col-sm-12 grid-margin stretch-card mx-auto">
         <div class="card">
           <div class="card-body">
-            <h4 class="cardtitle">Create Deployment</h4>
+            <h4 class="card-title">Create Deployment</h4>
             <b-tabs class="tab-solid tab-solid-success">
               <b-tab active>
                 <template v-slot:title>
@@ -52,7 +52,7 @@
                   <div class="col-md-6">
                     <ValidationProvider rules="required" v-slot="{ errors }">
                       <b-form-group horizontal label="Replicas" description="How many pods do you expect">
-                        <b-form-input v-model="replicas" placeholder="1-10"></b-form-input>
+                        <b-form-input v-model="replicas" type="number" placeholder="1-10"></b-form-input>
                       </b-form-group>
                       <span class="text-danger">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -76,7 +76,7 @@
                           <b-form-input v-model="tab.args" placeholder="--bar=1;--foo=test"></b-form-input>
                        </b-form-group>
                        <b-form-group label="Container port">
-                         <b-form-input v-model="tab.port" placeholder="9090"></b-form-input>
+                         <b-form-input v-model="tab.port" type="number" placeholder="9090"></b-form-input>
                        </b-form-group>
                        <b-form-group label="Protocol">
                          <b-form-select v-model="tab.protocol" name="Protocol"
@@ -279,7 +279,7 @@ spec:
       this.deployParam.namespace = this.nsSelected
       this.deployParam.reschedulable = this.reschedulable
       this.deployParam.app_label = this.appLabel
-      this.deployParam.replicas = this.replicas
+      this.deployParam.replicas = parseInt(this.replicas)
 
       this.$fire({
         title: 'Have you checked out the form?',
