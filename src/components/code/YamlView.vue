@@ -8,7 +8,7 @@
     :maxLines=40
     :highlightActiveLine="true"
     mode="yaml"
-    :defaultValue="code"
+    :value="code"
     theme="monokai"
     name="editor"
     :editorProps="{$blockScrolling: true}"/>
