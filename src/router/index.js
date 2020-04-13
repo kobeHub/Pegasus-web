@@ -9,6 +9,7 @@ import TaskView from '@/components/kuber/TaskView'
 import DeployView from '@/components/kuber/DeployView'
 import ServiceView from '@/components/kuber/ServiceView'
 import DeployEdit from '@/components/kuber/DeployEdit'
+import ServiceEdit from '@/components/kuber/ServiceEdit'
 
 import Error404 from '@/components/Errors/error-404'
 import Error500 from '@/components/Errors/error-500'
@@ -60,6 +61,11 @@ export default new Router({
         {
             path: '/editdeploy/:ns/:name',
             component: DeployEdit,
+            props: true
+        },
+        {
+            path: '/editsvc/:ns/:name',
+            component: ServiceEdit,
             props: true
         },
         {
