@@ -124,6 +124,8 @@ export default {
           this.$toast.error(res.data.msg)
         } else if (res.status == 401) {
           this.$toast.error('Permission not allowed')
+        } else if (res.status == 409) {
+          this.$toast.error('The department existed already!')
         } else {
           this.$router.push('/error')
         }
