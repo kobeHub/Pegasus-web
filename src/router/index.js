@@ -10,6 +10,7 @@ import DeployView from '@/components/kuber/DeployView'
 import ServiceView from '@/components/kuber/ServiceView'
 import DeployEdit from '@/components/kuber/DeployEdit'
 import ServiceEdit from '@/components/kuber/ServiceEdit'
+import Registry from '@/components/kuber/Registry'
 
 import Error404 from '@/components/Errors/error-404'
 import Error500 from '@/components/Errors/error-500'
@@ -71,6 +72,10 @@ export default new Router({
         {
             path: '/createsvc',
             component: ServiceView
+        },
+        {
+            path: '/registry',
+            component: Registry,
         },
         {
             path: '/error',

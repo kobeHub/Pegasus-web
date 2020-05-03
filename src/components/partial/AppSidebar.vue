@@ -37,7 +37,7 @@
             </ul>
           </b-collapse>
         </li>
-        <li class="nav-item"><router-link class="nav-link" to="#"><img class="menu-icon" src="../../assets/images/menu_icons/docker.png" alt="menu icon"><span class="menu-title">Docker images registry</span></router-link></li>
+        <li class="nav-item"><router-link class="nav-link" to="/registry"><img class="menu-icon" src="../../assets/images/menu_icons/docker.png" alt="menu icon"><span class="menu-title">Docker images registry</span></router-link></li>
         <li class="nav-item"><router-link class="nav-link" to="#"><img class="menu-icon" src="../../assets/images/menu_icons/setting.png" alt="menu icon"><span class="menu-title">Settings</span></router-link></li>
         </ul>
     </nav>
