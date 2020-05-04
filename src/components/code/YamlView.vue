@@ -9,6 +9,7 @@
     :highlightActiveLine="true"
     mode="yaml"
     :value="code"
+    :onChange="onChange"
     theme="monokai"
     name="editor"
     :editorProps="{$blockScrolling: true}"/>
@@ -28,7 +29,9 @@ export default {
   },
   props: ['width', 'code'],
   methods: {
-
+    onChange(newValue) {
+      this.code = newValue
+    }
   }
 }
 </script>

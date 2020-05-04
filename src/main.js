@@ -7,7 +7,7 @@ import BootstrapVue from 'bootstrap-vue'
 import { extend } from 'vee-validate'
 import VueToast from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-default.css'
-import { required, email, alpha_dash, confirmed} from 'vee-validate/dist/rules'
+import { required, email, alpha_dash, confirmed, regex} from 'vee-validate/dist/rules'
 import VueSimpleAlert from 'vue-simple-alert'
 
 Vue.config.productionTip = false
@@ -87,8 +87,12 @@ extend('minmax', {
     },
     params: ['min', 'max'],
     message: '{_field_} length must between {min}  and {max}'
-});
+})
 
+extend('regex', {
+    ...regex,
+    message: 'regex format not allowed'
+})
 
 
 new Vue({

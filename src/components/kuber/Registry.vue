@@ -51,7 +51,7 @@
                   <i class="mdi mdi-folder-plus">New image</i>
                 </template>
                 <h5 class="text-info">Create image repository</h5>
-                <ValidationProvider rules="required" name="name" v-slot="{ errors }">
+                <ValidationProvider :rules="{ regex: /[a-z]+(?:[._-][a-z]*[0-9]*)*/}" name="name" v-slot="{ errors }">
                   <b-form-group label="Name">
                     <b-form-input placeholder="repository name" name="repoName"
                       type="text" v-model="repoName"></b-form-input>
@@ -127,7 +127,19 @@
                   Please copy your dockerfile here or edit it.
                 </p>
 
-                <YamlView :code="yaml" width="800px"></YamlView>
+                <AceEditor
+                  :fontSize="14"
+                  :showPrintMargin="true"
+                  :showGutter="true"
+                  width="width"
+                  :maxLines=40
+                  :highlightActiveLine="true"
+                  mode="dockerfile"
+                  :value="yaml"
+                  theme="monokai"
+                  name="editor"
+                  :editorProps="{$blockScrolling: true}"/>
+
                 <b-button variant="success" class="col-md-5 mt-3 mr-2" @click="commitRule">Create</b-button>
                 <b-button variant="danger" class="col-md-5 mt-3 ml-1" @click="clearRule">
                   Clear
@@ -147,6 +159,10 @@ import axios from 'axios'
 import dedent from 'dedent'
 import YamlView from '../code/YamlView.vue'
 import { ValidationProvider } from 'vee-validate'
+import { Ace as AceEditor} from 'vue2-brace-editor'
+
+import 'brace/mode/dockerfile'
+import 'brace/theme/monokai'
 
 export default {
   name: 'Registry',
@@ -207,6 +223,7 @@ CMD /usr/bin/default_cmd`
     }
   },
   components: {
+    AceEditor,
     YamlView,
     ValidationProvider,
   },
@@ -227,10 +244,11 @@ CMD /usr/bin/default_cmd`
       var rows = []
       var itemPerRow = 3
       var arr = this.publicImages
-      for (var i = 0; i < arr.length; i += itemPerRow) {
+      for (var i = 0; i < arr.length / itemPerRow; i ++) {
         var row = []
-        for (var z = 0; z < itemPerRow; z++) {
-          row.push(arr[i + z])
+        let ii = i * itemPerRow
+        for (var z = 0; (z < itemPerRow) && (ii + z < arr.length); z++) {
+          row.push(arr[ii + z])
         }
         rows.push(row)
       }
@@ -242,14 +260,25 @@ CMD /usr/bin/default_cmd`
   },
   methods: {
     commitRepo() {
-      let param = {
-        name: this.repoName,
-        summary: this.repoSummary,
-        isOverSea: this.isOversea === 'true',
-        disableCache: this.disableCache === 'true',
-        is_public: this.isPublic === 'true'
+      let param = {}
+      if (this.isPublic === 'true') {
+        param = {
+          name: this.repoName,
+          summary: this.repoSummary,
+          isOverSea: this.isOversea === 'true',
+          disableCache: this.disableCache === 'true',
+          isPublic: true
+        }
+      } else {
+        param = {
+          name: this.repoName,
+          summary: this.repoSummary,
+          isOverSea: this.isOversea === 'true',
+          disableCache: this.disableCache === 'true',
+          isPublic: false,
+          belong_to: this.currentId,
+        }
       }
-      console.log(param)
 
       this.$fire({
         title: 'Have you checked out the form?',
@@ -262,6 +291,7 @@ CMD /usr/bin/default_cmd`
       }).then((result) => {
         if (result.value) {
           this.isLoading = true
+          console.log(param)
           axios.post( '/api/repos/create', param ).then(res => {
             let data = res.data
             this.timer = setTimeout(() => {
@@ -273,18 +303,27 @@ CMD /usr/bin/default_cmd`
             let res = err.response
             if (res.status == 500) {
               this.$router.push('/error')
+              this.$toast.error(res.data.msg)
             } else {
               this.$toast.error(res.data.msg)
             }
           })
         }
       })
+      this.tagRepo = this.repoName
     },
     clearRepo() {
       this.repoName = ''
       this.repoSummary = ''
     },
-    commitRule() {},
+    commitRule() {
+      let param = {
+        repoName: this.tagRepo,
+        tag: this.tagName,
+        dockerfile: this.yaml,
+      }
+      console.log(param)
+    },
     clearRule() {},
     async getPublicImages() {
       const { data } = await axios.get( '/api/repos/public' )
