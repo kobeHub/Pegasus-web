@@ -9,6 +9,7 @@ import VueToast from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-default.css'
 import { required, email, alpha_dash, confirmed, regex} from 'vee-validate/dist/rules'
 import VueSimpleAlert from 'vue-simple-alert'
+import VueClipboard from 'vue-clipboard2'
 
 Vue.config.productionTip = false
 Vue.use(Vuex)
@@ -19,6 +20,9 @@ Vue.use(VueToast, {
     dismissible: true
 })
 Vue.use(VueSimpleAlert)
+
+VueClipboard.config.autoSetContainer = true
+Vue.use(VueClipboard)
 
 // Vuex state store
 const store = new Vuex.Store({

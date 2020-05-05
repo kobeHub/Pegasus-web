@@ -21,6 +21,7 @@
     "minimist": "^1.2.3",
     "vee-validate": "^3.2.5",
     "vue": "^2.6.11",
+    "vue-clipboard2": "^0.3.1",
     "vue-router": "^3.1.5",
     "vue-simple-alert": "^1.1.1",
     "vue-toast-notification": "^0.2.0",

@@ -11,6 +11,7 @@ import ServiceView from '@/components/kuber/ServiceView'
 import DeployEdit from '@/components/kuber/DeployEdit'
 import ServiceEdit from '@/components/kuber/ServiceEdit'
 import Registry from '@/components/kuber/Registry'
+import ImagesDetail from '@/components/kuber/ImagesDetail'
 
 import Error404 from '@/components/Errors/error-404'
 import Error500 from '@/components/Errors/error-500'
@@ -76,6 +77,11 @@ export default new Router({
         {
             path: '/registry',
             component: Registry,
+        },
+        {
+            path: '/images/:repo',
+            component: ImagesDetail,
+            props: true
         },
         {
             path: '/error',
