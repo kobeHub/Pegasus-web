@@ -348,7 +348,6 @@ spec:
       let container = {
         name: tab.conName,
         image: tab.image,
-        args: tab.args.split(';'),
         ports: [{
           name: 'default-http',
           containerPort: parseInt(tab.port),
@@ -358,6 +357,9 @@ spec:
                     requests: {cpu: tab.reqCpu, memory: tab.reqMem}},
         terminationMessagePath: '/dev/termination-log',
         terminationMessagePolicy: 'File'}
+      if (typeof(tab.args) != "undefined" && tab.args != null) {
+        container.args = tab.args.split(';')
+      }
       this.deployParam.containers.push(container)
       this.$toast.info('Add container ' + tab.conName + ' successfully')
     },
