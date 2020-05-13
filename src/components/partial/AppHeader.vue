@@ -140,6 +140,13 @@ export default {
           this.$store.commit('clearUserInfo')
           this.$store.commit('logout')
         }
+      }).catch(err => {
+        let res = err.response
+        if (res.status == 500) {
+          this.$router.push('/error')
+        } else {
+          this.$toast.error(res.data.msg)
+        }
       })
 
       this.timer = setTimeout(() => {
