@@ -164,7 +164,9 @@
             <h6 class="card-description text-info">Pods infomations</h6>
             <div class="d-flex justify-content-between flex-wrap">
               <b-table responsive hover striped fixed
-                :fields="podFields" :items="podItems">
+                :fields="podFields"
+                :items="podItems"
+              @row-clicked="goLogs">
                 <template v-slot:cell(isActive)="{ value }">
                   <b-badge pill v-if="value" variant="success">Active</b-badge>
                   <b-badge pill v-if="!value" variant="danger">Invalid</b-badge>
@@ -512,6 +514,9 @@ export default {
           }
         })
       }).catch(() => console.log('cancel'))
+    },
+    goLogs(row) {
+      this.$router.push( '/podlog/' + row.namespace + '/' + row.name )
     }
   },
   beforeDestory: function() {
