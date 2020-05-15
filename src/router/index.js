@@ -13,6 +13,7 @@ import ServiceEdit from '@/components/kuber/ServiceEdit'
 import Registry from '@/components/kuber/Registry'
 import ImagesDetail from '@/components/kuber/ImagesDetail'
 import Log from '@/components/kuber/Log'
+import Ingress from '@/components/kuber/Ingress'
 
 import Error404 from '@/components/Errors/error-404'
 import Error500 from '@/components/Errors/error-500'
@@ -74,6 +75,10 @@ export default new Router({
         {
             path: '/createsvc',
             component: ServiceView
+        },
+        {
+            path: '/ingress',
+            component: Ingress
         },
         {
             path: '/registry',

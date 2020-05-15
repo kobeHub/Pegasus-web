@@ -33,7 +33,7 @@
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"><router-link class="nav-link" to="/createdeploy">Deployment</router-link></li>
               <li class="nav-item"><router-link class="nav-link" to="/createsvc">Service</router-link></li>
-              <li class="nav-item"><router-link class="nav-link" to="/createing">Ingress</router-link></li>
+              <li class="nav-item"><router-link class="nav-link" to="/ingress">Ingress</router-link></li>
             </ul>
           </b-collapse>
         </li>
