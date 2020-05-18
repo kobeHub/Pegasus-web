@@ -353,8 +353,8 @@ spec:
           containerPort: parseInt(tab.port),
           protocol: 'TCP'}],
         imagePullPolicy: 'IfNotPresent',
-        resources: {limits: {cpu: tab.limitCpu, memory: tab.limitMem},
-                    requests: {cpu: tab.reqCpu, memory: tab.reqMem}},
+        resources: {limits: {cpu: String(tab.limitCpu), memory: String(tab.limitMem)},
+                    requests: {cpu: String(tab.reqCpu), memory: String(tab.reqMem)}},
         terminationMessagePath: '/dev/termination-log',
         terminationMessagePolicy: 'File'}
       if (typeof(tab.args) != "undefined" && tab.args != null) {
