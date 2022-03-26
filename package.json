@@ -18,7 +18,7 @@
     "font-awesome": "4.7.0",
     "json2yaml": "^1.1.0",
     "mdi": "2.1.19",
-    "minimist": "^1.2.3",
+    "minimist": "^1.2.6",
     "vee-validate": "^3.2.5",
     "vue": "^2.6.11",
     "vue-clipboard2": "^0.3.1",
